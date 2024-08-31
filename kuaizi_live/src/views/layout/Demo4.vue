@@ -1,5 +1,5 @@
 <template>
-<RouterView/>
+我的
 </template>
 
 <script setup>

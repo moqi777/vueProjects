@@ -1,5 +1,5 @@
 <template>
-<RouterView/>
+商城
 </template>
 
 <script setup>

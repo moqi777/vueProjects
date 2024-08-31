@@ -1,5 +1,5 @@
 <template>
-<RouterView/>
+外卖
 </template>
 
 <script setup>

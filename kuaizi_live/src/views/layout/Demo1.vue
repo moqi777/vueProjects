@@ -1,5 +1,5 @@
 <template>
-<RouterView/>
+首页
 </template>
 
 <script setup>
