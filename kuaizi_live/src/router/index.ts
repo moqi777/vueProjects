@@ -24,6 +24,10 @@ const routes: Array<RouteRecordRaw> = [
         component:()=>import('../views/layout/Demo4.vue')
       },
     ]
+  },
+  {
+    path:'/sysSet',
+    component:()=>import('../views/Demo4/sysSet/Home.vue')
   }
 ]
 
