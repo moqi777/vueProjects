@@ -1,5 +1,6 @@
 //将axios对象进行封装 提高安全性
 //1.导入axios
+import router from "@/router";
 import axios from "axios";
 
 //2.创建错误映射    status:状态码  info:错误信息
@@ -22,6 +23,13 @@ const instance = axios.create({
 //4.通过请求实例配置请求拦截器(成功的函数,失败的函数)
 instance.interceptors.request.use(
     config=>{
+        //每次发送请求 都会进入这个拦截器进行 处理
+        //所以在这里编写 JWT存储请求头信息 表示所有进入后端的请求都会携带JWT 的token
+        const token = localStorage.getItem('token');
+        //请求头 存储的数据 不能识别中文
+        // config.headers.名称="数据"
+        config.headers.token=token;
+
         if(config.method == "post"){
             //处理所有的post请求 看公司要求
         }else if(config.method == "get"){

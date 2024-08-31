@@ -19,10 +19,10 @@
       </el-menu-item>
       <el-menu-item index="/">XXXAPP后台管理系统</el-menu-item>
       <el-sub-menu index="2">
-        <template #title>管理员账号信息</template>
+        <template #title>{{ admin.account }}</template>
         <el-menu-item index="/个人信息 逐渐">个人信息</el-menu-item>
         <el-menu-item index="修改密码 组件">修改密码</el-menu-item>
-        <el-menu-item index="2-3">返回前台</el-menu-item>
+        <el-menu-item index="/demo4">返回前台</el-menu-item>
         <el-menu-item index="2-4">退出登录</el-menu-item>
       </el-sub-menu>
     </el-menu>
@@ -110,13 +110,15 @@
   </template>
   
   <script lang="ts" setup>
-  import { ref } from 'vue'
+  import { onMounted, ref } from 'vue'
   import {
     Document,
     Menu as IconMenu,
     Location,
     Setting,
   } from '@element-plus/icons-vue'
+
+  const admin=ref({account:String})
   
   const handleOpen = (key: string, keyPath: string[]) => {
     console.log(key, keyPath)
@@ -129,6 +131,10 @@
   const handleSelect = (key: string, keyPath: string[]) => {
     console.log(key, keyPath)
   }
+
+  onMounted(()=>{
+    admin.value = JSON.parse(localStorage.getItem('admin') || '{}');
+  })
   </script>
   
   <style>
