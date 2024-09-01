@@ -187,7 +187,7 @@
         width: 95%;
         height: 110px;
         margin:auto;
-        background-image: url(../../assets/Exclusive_coupon_pack.png);
+        background-image: url(../../assets/app_img/Exclusive_coupon_pack.png);
         background-size: 100% 100% ;
     }
     /* 我的订单 */

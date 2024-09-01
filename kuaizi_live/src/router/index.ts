@@ -28,6 +28,30 @@ const routes: Array<RouteRecordRaw> = [
   {
     path:'/sysSet',
     component:()=>import('../views/Demo4/sysSet/Home.vue')
+  },
+  {
+    path:'/set1',
+    component:()=>import('../views/Demo4/sysSet/Set1.vue')
+  },
+  {
+    path:'/set2',
+    component:()=>import('../views/Demo4/sysSet/Set2.vue')
+  },
+  {
+    path:'/set3',
+    component:()=>import('../views/Demo4/sysSet/Set3.vue')
+  },
+  {
+    path:'/set4',
+    component:()=>import('../views/Demo4/sysSet/Set4.vue')
+  },
+  {
+    path:'/set5',
+    component:()=>import('../views/Demo4/sysSet/Set5.vue')
+  },
+  {
+    path:'/set6',
+    component:()=>import('../views/Demo4/sysSet/Set6.vue')
   }
 ]
 
