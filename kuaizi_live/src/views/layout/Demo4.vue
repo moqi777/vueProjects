@@ -42,7 +42,7 @@
     <van-row>
         <van-col span="5" style="font-weight: 550;">我的订单</van-col>
         <van-col span="13"></van-col>
-        <van-col span="6" style="color: gray;" @click="router.push('/')">全部订单<van-icon name="arrow" color="rgb(241, 28, 46)"/></van-col>
+        <van-col span="6" style="color: gray;" @click="router.push('/order')">全部订单<van-icon name="arrow" color="rgb(241, 28, 46)"/></van-col>
     </van-row>
     <van-grid column-num="5" :border="false">
         <van-grid-item to="/">

@@ -6,7 +6,7 @@
      <div class="big"><div class="banner">
       <van-row class="top_div">
         <van-col span="10" @click="router.push('/')">
-          <van-sticky :offset-top="5">
+          <van-sticky :offset-top="10" style="z-index: 9999;">
             <svg-icon iconName="icon-dizhiguanli"/>
           </van-sticky>
           <span>&nbsp;&nbsp;{{ address }}<van-icon name="arrow" style="color: gray;"/></span>
@@ -17,75 +17,75 @@
           <svg-icon iconName="icon-chat"/>
         </van-col>
       </van-row>
-      <van-search v-model="value" placeholder="请输入搜索关键词" 
-        background="none"
-        shape="round"/>
-     </div></div> 
-    
-    <!-- 各类功能排列 -->
-    <van-grid :column-num="5" class="icons" :border="false">
-        <van-grid-item icon="photo-o" text="文字" class="icon-item">
-            <img src="../../assets/app_img/demo1_activity1.png" />
-            <p>家政服务</p>
-        </van-grid-item>
-        <van-grid-item icon="photo-o" text="文字" class="icon-item">
-            <img src="../../assets/app_img/demo1_activity2.png" />
-            <p>家政服务</p>
-        </van-grid-item>
-        <van-grid-item icon="photo-o" text="文字" class="icon-item">
-            <img src="../../assets/app_img/demo1_activity3.png" />
-            <p>家政服务</p>
-        </van-grid-item>
-        <van-grid-item icon="photo-o" text="文字" class="icon-item">
-            <img src="../../assets/app_img/demo1_activity4.png" />
-            <p>家政服务</p>
-        </van-grid-item>
-        <van-grid-item/>
-        <van-grid-item icon="photo-o" text="文字" class="icon-item">
-            <img src="../../assets/app_img/demo1_activity5.png" />
-            <p>家政服务</p>
-        </van-grid-item>
-        <van-grid-item icon="photo-o" text="文字" class="icon-item">
-            <img src="../../assets/app_img/demo1_activity6.png" />
-            <p>家政服务</p>
-        </van-grid-item>
-        <van-grid-item icon="photo-o" text="文字" class="icon-item">
-            <img src="../../assets/app_img/demo1_activity7.png" />
-            <p>家政服务</p>
-        </van-grid-item>
-        <van-grid-item/><van-grid-item/>
-        <van-grid-item icon="photo-o" text="文字" class="icon-item">
-            <img src="../../assets/app_img/demo1_activity8.png" />
-            <p>家政服务</p>
-        </van-grid-item>
-        <van-grid-item icon="photo-o" text="文字" class="icon-item">
-            <img src="../../assets/app_img/demo1_activity9.png" />
-            <p>家政服务</p>
-        </van-grid-item>
-        <van-grid-item/><van-grid-item/><van-grid-item/>
-    </van-grid>
+      <van-sticky @change="ceiling">
+        <div class="serch_div" @click="router.push('/')">
+          <van-row class="serch">
+          <van-col span="8"><van-icon name="search" size="30px" style="margin: 3px"/></van-col>
+          <van-col span="12"></van-col>
+          <van-col span="4" style="display: flex;justify-content: flex-end;">
+            <div class="serch_text">搜 索</div>&nbsp;
+          </van-col>
+        </van-row>
+        </div>
+        </van-sticky>
+     </div>
+         <!-- 各类功能排列 -->
+        <van-grid :column-num="5" class="icons" :border="false">
+            <van-grid-item icon="photo-o" text="文字" class="icon-item">
+                <img src="../../assets/app_img/demo1_activity1.png" />
+                <p>家政服务</p>
+            </van-grid-item>
+            <van-grid-item icon="photo-o" text="文字" class="icon-item">
+                <img src="../../assets/app_img/demo1_activity2.png" />
+                <p>家政服务</p>
+            </van-grid-item>
+            <van-grid-item icon="photo-o" text="文字" class="icon-item">
+                <img src="../../assets/app_img/demo1_activity3.png" />
+                <p>家政服务</p>
+            </van-grid-item>
+            <van-grid-item icon="photo-o" text="文字" class="icon-item">
+                <img src="../../assets/app_img/demo1_activity4.png" />
+                <p>家政服务</p>
+            </van-grid-item>
+            <van-grid-item/>
+            <van-grid-item icon="photo-o" text="文字" class="icon-item">
+                <img src="../../assets/app_img/demo1_activity5.png" />
+                <p>家政服务</p>
+            </van-grid-item>
+            <van-grid-item icon="photo-o" text="文字" class="icon-item">
+                <img src="../../assets/app_img/demo1_activity6.png" />
+                <p>家政服务</p>
+            </van-grid-item>
+            <van-grid-item icon="photo-o" text="文字" class="icon-item">
+                <img src="../../assets/app_img/demo1_activity7.png" />
+                <p>家政服务</p>
+            </van-grid-item>
+            <van-grid-item/><van-grid-item/>
+            <van-grid-item icon="photo-o" text="文字" class="icon-item">
+                <img src="../../assets/app_img/demo1_activity8.png" />
+                <p>家政服务</p>
+            </van-grid-item>
+            <van-grid-item icon="photo-o" text="文字" class="icon-item">
+                <img src="../../assets/app_img/demo1_activity9.png" />
+                <p>家政服务</p>
+            </van-grid-item>
+            <van-grid-item/><van-grid-item/><van-grid-item/>
+        </van-grid>
+    </div> 
     
     <!-- 具体业务内容展示 -->
-     <div>
+     <div style="margin-top: 270px;width: 92%;margin-left: auto;margin-right: auto;">
       <!-- 标签页 -->
-      <van-tabs v-model:active="active" title-active-color="orange"  swipeable color="orange">
-      <van-tab title="推荐">
-        <div class="product-container">
-        <div class="product-list left-list">
-          <div class="product-left" style="text-align: left;" to="/商品1">
-            <!-- 商品内容 -->
-            <img src="" alt="商品图片" style="height: 50%; width: 50%;"><br>
-            <span>商品1</span>
-          </div>
-        </div>
-        <div class="product-list right-list">
-          <div class="product-right" style="text-align: right;" to="/商品1">
-            <!-- 商品内容 -->
-            <img src="" alt="商品图片" style="height: 50%; width: 50%;"><br>
-            <span>商品2</span>
-          </div>
-        </div>
-      </div>
+      <van-tabs 
+        v-model:active="active" 
+        title-active-color="orange"  
+        swipeable color="orange" 
+        sticky 
+        :offset-top="50"
+        line-width="25%">
+      <van-tab title="推荐" style="display: flex;justify-content: flex-start;">
+          <div class="list_left" style="width: 40%;height: 500px;border: 1px solid red;"></div>
+          <div class="list_right" style="width: 40%;height: 500px;border: 1px solid black;"></div>
       </van-tab>
       <van-tab title="商城">商城</van-tab>
       <van-tab title="外卖">外卖</van-tab>
@@ -102,7 +102,31 @@
     import { useRouter } from "vue-router";//导入路由 可以路由跳转
     const router=useRouter();//定义路由对象
     const address = ref('马尼拉')
-    const value = ref()
+    //外卖：图片 品名 评分 销量 0
+    //商城：图片 品名 描述 价格 1 
+    //到店：图片 品名 销量 价格 2
+    const list = ref({
+      type:"0",
+      img:"../../assets/take-out/test.png",
+      name:"A04猪脚拼饭烧鸭",
+      sale:"0",
+      grade:"3.7",
+      price:null,
+    },{
+      type:"1",
+      img:"../../assets/shopping_mall/test.png",
+      name:"自然派蜜汁味/炭烧味猪肉铺75g",
+      sale:null,
+      grade:"0",
+      price:200.00
+    },{
+      type:"2",
+      img:"../../assets/reach_the_store/test.png",
+      name:"酒店套房",
+      sale:"4",
+      grade:null,
+      price:2500
+    })
     //刷新时间
     const time=ref( new Date)
     //刷新触发函数
@@ -118,6 +142,27 @@
     
     //广告函数
     const advertisement =(()=>{});
+    //吸顶时触发
+    const ceiling = (isSticky) => {
+      let search = document.getElementsByClassName('serch')[0];
+      let serch_div = document.getElementsByClassName('serch_div')[0];
+      let serch = document.getElementsByClassName('serch')[0];
+      let serch_text = document.getElementsByClassName('serch_text')[0];
+      if (isSticky) {
+        // 如果处于吸顶状态，缩短搜索框宽度，增加地址栏宽度
+        search.style.width = "85%";
+        serch_div.style["background-color"] = "white";
+        serch.style.border = "1px solid #FF4724";
+        serch_text.style["background-color"] = "#FF4724";
+      } else {
+        // 如果没有吸顶，恢复原来的宽度
+        search.style.width = "92%";
+        serch_div.style["background-color"] = null;
+        serch.style.border = "1px solid black";
+        serch_text.style["background-color"] = "black";
+      }
+    };
+
     </script>
     
     <style scoped>
@@ -150,31 +195,44 @@
       width: 25px;
       height: 25px;
     }
-    .search-input {
-      width: 100%;        /* 设置输入框的宽度 */
-      padding: 3px;       /* 设置内边距 */
-      border-radius: 20px; /* 设置圆角半径 */
-      border: 2px solid black; /* 设置边框颜色和样式 */
-      outline: none;       /* 去掉默认的输入框轮廓 */
-      margin-left: 10px;
-      position: relative;
-      z-index: 10;
-      flex: 1;
+    /* 搜索框 */
+    .serch_div{
+      display: flex;
+      justify-content: flex-end;
+      padding-bottom: 3px
     }
-    .search-container {
+    .serch{
+      width: 92%;
+      height: 35px;
+      margin-right: 4%;
+      background-color: white;
+      border-radius: 20px;
+      margin-top: 5px;
+      border: 1px solid black;
+    }
+    .serch_text{
+      width: 53px;
+      height:30px; 
+      background-color: black;
+      border-radius: 20px;
+      margin-top: 3px;
+      color: white;
+      text-align: center;
       display: flex;
       align-items: center;
-    }
-    .search-button {
-      border: 2px solid black; 
-      color: white; 
-      background-color: black; 
-      --van-button-border-color: black;
+      justify-content: center;
+      font-size: 13px;
     }
     
     .icons {
+      width: 92%;
+      height: 270px;
       padding: 10px;
       padding-top: 10px;
+      margin: auto;
+      border-radius: 10px;
+      background-color: white;
+      box-shadow: 0px 0px 1px gray;
     }
     
     .icon-item {
@@ -193,19 +251,6 @@
       text-align: center;
     }
     
-    .product-container {
-      display: flex;
-      height: 100vh; /* 使容器高度填满视口 */
-    }
-    .product-list left-list{
-      flex: 1; /* 左侧容器占据 1 单位的空间 */
-      background-color: #f0f0f0; /* 左侧容器背景色 */
-      padding: 20px;
-    }
-    .product-list right-list{
-      flex: 2; /* 右侧容器占据 2 单位的空间 */
-      background-color: #e0e0e0; /* 右侧容器背景色 */
-      padding: 20px;
-    }
+    
     </style>
     

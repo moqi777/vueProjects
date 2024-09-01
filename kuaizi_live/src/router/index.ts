@@ -52,6 +52,10 @@ const routes: Array<RouteRecordRaw> = [
   {
     path:'/set6',
     component:()=>import('../views/Demo4/sysSet/Set6.vue')
+  },
+  {
+    path:'/order',
+    component:()=>import('../views/Demo4/order/Order.vue')
   }
 ]
 
