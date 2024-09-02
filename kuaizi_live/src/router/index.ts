@@ -64,7 +64,31 @@ const routes: Array<RouteRecordRaw> = [
   {
     path:'/order',
     component:()=>import('../views/Demo4/order/Order.vue')
-  }
+  },
+  {
+    path:'/login',
+    component:()=>import('../views/Login.vue')
+  },
+  {
+    path:'/one',
+    component:()=>import('../views/agreement/One.vue')
+  },
+  {
+    path:'/two',
+    component:()=>import('../views/agreement/Two.vue')
+  },
+  {
+    path:'/code',
+    component:()=>import('../views/Code.vue')
+  },
+  {
+    path:'/reg',
+    component:()=>import('../views/Reg.vue')
+  },
+  {
+    path:'/forgetpassword',
+    component:()=>import('../views/ForgetPassword.vue')
+  },
 ]
 
 const router = createRouter({

@@ -18,7 +18,7 @@
             v-if="user==null"/>
     </van-col>
       <van-col span="13" class="youhuming" v-if="user!=null">{{ user.user_name }}</van-col>
-      <van-col span="13" class="youhuming" v-if="user==null" @click="router.push('/')">登录 / 注册</van-col>
+      <van-col span="13" class="youhuming" v-if="user==null" @click="router.push('/login')">登录 / 注册</van-col>
       <van-col span="6"  class="shezhi">
         <van-icon name="service-o" size="18" @click="router.push('/')">
             <van-col><span style="font-size: 13px;">客服</span></van-col>
@@ -133,7 +133,8 @@
     
     <script setup>
     import {ref} from "vue"
-    const user=ref({user_name:"用户",img:"/user/头像.jpg"})//测试数据，前后端关联要修改
+    // const user=ref({user_name:"用户",img:"/user/头像.jpg"})//测试数据，前后端关联要修改
+    const user=ref()//测试数据，前后端关联要修改
     import { useRouter } from "vue-router";//导入路由 可以路由跳转
     const router=useRouter();//定义路由对象
     const a = ref(0);
