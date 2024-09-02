@@ -74,7 +74,8 @@
       </div>
   
       <!-- 获取验证码按钮 -->
-      <van-button type="primary" round size="large" class="verification-button" @click="navigateTo('/code')">获取短信验证码</van-button>
+      <van-button type="primary" v-if="value!=''&&checked1==true&&value.length>=10" round size="large" class="verification-button" @click="navigateTo('/code')">获取短信验证码</van-button>
+      <van-button type="primary" v-if="value==''||checked1==false||value.length<10" disabled  round size="large" class="verification-button" @click="navigateTo('/code')">获取短信验证码</van-button>
     </div>
   
     <!-- 其他登录方式 -->
@@ -90,6 +91,7 @@
   <script setup>
   import { ref } from 'vue';
   import { useRouter } from 'vue-router';
+  import api from '../api/index'  
   
   const onClickLeft = () => router.push('/Demo4');
   // 路由实例
@@ -97,7 +99,7 @@
   
   // 状态管理
   const status = ref(1);
-  const value = ref('');
+  const value = ref('');//电话号码
   const show = ref(false);
   const code = ref('+86'); // 默认显示+86
   const password = ref('');
@@ -138,6 +140,23 @@
   
   // 跳转至相关页面
   const navigateTo = (path) => {
+    //如果是获取验证码界面跳转
+    if(path=='/code'){
+      //判断电话号码的正确性
+      // 正则表达式用于验证中国电话号码格式
+      const chinaRegex = /^(\+86)?1[3-9]\d{9}$/;
+      // 正则表达式用于验证菲律宾电话号码格式
+      const philippinesRegex = /^(\+63)?9\d{9}$/;
+      // 验证是否为中国或菲律宾的号码
+      if (!chinaRegex.test(value.value)&&code.value=='+86') {
+        showToast('请输入正确手机号');
+      } else if (!philippinesRegex.test(value.value)&&code.value=='+63') {
+        showToast('请输入正确手机号');
+      } 
+      //路由传值，将区号 电话号码
+      router.push(path+'/'+code.value+'/'+value.value)
+      return;
+    }
     router.push(path);
   };
   </script>

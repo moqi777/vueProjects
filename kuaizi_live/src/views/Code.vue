@@ -10,7 +10,7 @@
   
     <div class="container">
       <div class="title">请输入验证码</div>
-      <div class="subtitle">已经发送至 {{ d }}</div>
+      <div class="subtitle">已经发送至 {{ user_phone }}</div>
       
       <div class="code-input">
         <input
@@ -34,14 +34,27 @@
           {{ isResendDisabled ? `重新获取验证码 (${countdown})` : '重新获取验证码' }}
         </a>
         <span>|</span>
-        <a href="#" @click="reportIssue">收不到验证码</a>
+        <a @click="reportIssue">收不到验证码</a>
       </div>
     </div>
   </template>
   
   <script setup>
-  import { ref } from "vue";
-  import { useRouter } from 'vue-router';
+  import { onMounted, ref } from "vue";
+  import { useRoute, useRouter } from 'vue-router';
+  import api from '../api/index'
+
+  const v_code = ref(null);//后端传来的验证码
+  //一进入到这个页面就向后端发送请求获取code
+  onMounted(()=>{
+    api.postReq('/kuser/getCode').then(res=>{
+      v_code.value = res.data.data
+    })
+  })
+
+  //路由转过来的区号 电话号码 
+  const areaCode = useRoute().params.areaCode;
+  const user_phone = useRoute().params.user_phone;
   
   const router = useRouter();
   const navigateTo = (path) => {
@@ -50,7 +63,6 @@
   
   const onClickLeft = () => history.back();
   
-  const d = ref('+8613361719272');
   const code = ref(new Array(4).fill('')); // 4位验证码
   
   const handleInput = (index) => {
@@ -60,6 +72,7 @@
     }
   };
   
+  //删除触发的函数
   const onBackspace = (index) => {
     if (index > 0 && !code.value[index]) {
       document.querySelectorAll('.digit-input')[index - 1].focus();
@@ -68,11 +81,31 @@
   
   const logCode = () => {
     console.log(code.value.join(''));
+    //当输完四位时
+    if(code.value[3]!=''){
+      //判断是否一样
+      if (code.value.join('')==v_code.value) {
+        //验证码验证成功，发送登录异步请求
+        api.postReq('/kuser/codeLogin',{areacode:areaCode,userPhone:user_phone}).then(res=>{
+          console.log(res.data);
+          
+        })
+      }else{
+        //验证码错误，清空验证码，弹窗提示错误
+        code.value=new Array(4).fill('')
+        showToast('输入错误');
+        // 将光标聚焦到第一个输入框
+        setTimeout(() => {
+          document.querySelector('.digit-input').focus();
+        }, 100); // 100毫秒的延时可以确保输入框已清空
+      }
+    }
   };
   
   const countdown = ref(60);
   const isResendDisabled = ref(true);
   
+  //清空倒计时
   const startCountdown = () => {
     isResendDisabled.value = true;
     countdown.value = 60;
@@ -87,15 +120,21 @@
     }, 1000);
   };
   
+  //重新获取验证码函数
   const resendCode = () => {
     if (!isResendDisabled.value) {
-      alert("验证码已重新发送！");
+      // alert("验证码已重新发送！");
+      showToast('验证码已重新发送');
+      api.postReq('/kuser/getCode').then(res=>{
+        v_code.value = res.data.data
+      })
       startCountdown();
     }
   };
   
   const reportIssue = () => {
-    alert("请联系我们的客服以解决此问题。");
+    // alert("请联系我们的客服以解决此问题。");
+    showToast('请联系我们的客服以解决此问题');
   };
   
   // 页面加载时开始倒计时

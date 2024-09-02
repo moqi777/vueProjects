@@ -78,7 +78,7 @@ const routes: Array<RouteRecordRaw> = [
     component:()=>import('../views/agreement/Two.vue')
   },
   {
-    path:'/code',
+    path:'/code/:areaCode/:user_phone',
     component:()=>import('../views/Code.vue')
   },
   {

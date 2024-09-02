@@ -2,7 +2,6 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
-import 'vant/lib/index.css';
 //引入所有的Elementplus图标
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 //引入iconfont
