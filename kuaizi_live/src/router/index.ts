@@ -6,6 +6,7 @@ const routes: Array<RouteRecordRaw> = [
     path:'/',
     component:Home,
     redirect:'/Demo1',
+    meta: { showTabBar: true},
     children:[
       {
         path:'Demo1',
@@ -22,7 +23,14 @@ const routes: Array<RouteRecordRaw> = [
       {
         path:'Demo4',
         component:()=>import('../views/layout/Demo4.vue')
-      },
+      },{
+        path:'search',
+        component:()=>import('../views/shop/search.vue')
+      },{
+        path:'commodity',
+        component:()=>import('../views/shop/commodity.vue'),
+        meta: { showTabBar: false, showActionBar: true }
+      }
     ]
   },
   {

@@ -7,7 +7,7 @@
     @click-right="onClickRight"
   >
     <template #left>
-      <van-icon name="arrow-left" style="color: black;" size="18" />
+      <van-icon name="arrow-left" style="color: black;" size="18" @click="router.push('/Demo4')"/>
     </template>
     <template #right>
       <van-icon style="color: black;" size="18">
@@ -84,16 +84,6 @@
       </p>
       <p v-else>{{ Orderdata }}</p>
     </van-tab>
-    <van-tab title="全部" name="1">
-      <p v-if="isObjectEmpty(Orderdata)">
-        <img
-          src="../../../assets/app_img/order_null.jpg"
-          alt=""
-          style="width: 100%; height: 100%;"
-        />
-      </p>
-      <p v-else>{{ Orderdata }}</p>
-    </van-tab>
   </van-tabs>
 
   <van-popup
@@ -126,7 +116,7 @@
       </div>
       <div class="action-buttons">
         <button class="reset-button">重置</button>
-        <button class="confirm-button">确定</button>
+        <button class="confirm-button" v-on:click="showPopupDown">确定</button>
       </div>
     </div>
   </van-popup>
@@ -134,12 +124,17 @@
 
 <script setup>
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const Orderdata = ref({});
 const show = ref(false);
 
 const showPopup = () => {
   show.value = true;
+};
+const showPopupDown = () => {
+  show.value = false;
 };
 
 const isObjectEmpty = (obj) => {

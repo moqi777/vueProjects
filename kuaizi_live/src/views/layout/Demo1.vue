@@ -1,6 +1,6 @@
 <template>
     <!-- 下拉刷新 -->
-    <van-pull-refresh v-model="loading" @refresh="onRefresh" :loosing-text="'释放刷新'">
+    <van-pull-refresh v-model="refreshing" @refresh="onRefresh" :loosing-text="'释放刷新'">
     
     <!-- 顶部导航 -->
      <div class="big"><div class="banner">
@@ -83,17 +83,284 @@
         sticky 
         :offset-top="50"
         line-width="25%">
-      <van-tab title="推荐" style="display: flex;justify-content: flex-start;">
-          <div class="list_left" style="width: 40%;height: 500px;border: 1px solid red;"></div>
-          <div class="list_right" style="width: 40%;height: 500px;border: 1px solid black;"></div>
+        <!-- 推荐显示 -->
+      <van-tab title="推荐">
+        <div style="display: flex;justify-content: space-between;">
+          <!-- 左 -->
+            <div class="list_left" style="width: 48%;">
+                <van-list
+                  v-model:loading="loading"
+                  :finished="finished"
+                  @load="onLoad"
+                >
+                  <template v-for="item,i in list">
+                    <div class="list_div" v-if="i%2==1">
+                      <van-image radius="10px" width="100%" height="70%" :src="getImageUrl(item.img)"/>
+                      <span style="display: flex;">
+                        <van-button 
+                            color="#FDF1C4" 
+                            style="width: 40px;height: 20px;color: #F0863E;" 
+                            size="mini"
+                            v-if="item.show_type==0">
+                          外 卖</van-button>
+                        <van-button 
+                            color="#C5E0FF" 
+                            style="width: 40px;height: 20px;color: #5286E3;" 
+                            size="mini"
+                            v-if="item.show_type==1">
+                          商 城</van-button>
+                        <van-button 
+                            color="#FF4674" 
+                            style="width: 40px;height: 20px;color: #FFF1F7;" 
+                            size="mini"
+                            v-if="item.show_type==2">
+                          到 店</van-button>
+                        &nbsp;&nbsp;&nbsp;{{ item.name }}
+                      </span>
+                      <div v-if="item.show_type==0" style="margin-top: 10px;">
+                        <svg-icon iconName="icon-hongxingxing"/>&nbsp;
+                        <span style="font-size: 15px;color: #FF1E45;">{{ item.grade }}</span>
+                        <span style="font-size: 15px;color: gray;">&nbsp;&nbsp;销量 {{ item.sale }}</span>
+                      </div>
+                      <div v-if="item.show_type==1" style="margin-top: 10px;">
+                        <span style="font-size: 19px;color: #FF1E45;">&nbsp;&nbsp;&nbsp;￥{{ item.price }}</span>
+                      </div>
+                      <div v-if="item.show_type==2" style="margin-top: 10px;">
+                        <span style="font-size: 15px;color: gray;">&nbsp;&nbsp;&nbsp;&nbsp;销量 {{ item.sale }}</span><br>
+                        <span style="font-size: 19px;color: #FF1E45;">&nbsp;&nbsp;&nbsp;￥{{ item.price }}</span>
+                      </div>
+                    </div>
+                  </template>
+                </van-list>
+            </div>
+            <!-- 右 -->
+          <div class="list_right" style="width: 48%;height: 500px;">
+            <van-list
+                  v-model:loading="loading"
+                  :finished="finished"
+                  @load="onLoad"
+                >
+                  <template v-for="item,i in list">
+                    <div class="list_div" v-if="i%2==0">
+                      <van-image radius="10px" width="100%" height="70%" :src="getImageUrl(item.img)"/>
+                      <span style="display: flex;">
+                        <van-button 
+                            color="#FDF1C4" 
+                            style="width: 40px;height: 20px;color: #F0863E;" 
+                            size="mini"
+                            v-if="item.show_type==0">
+                          外 卖</van-button>
+                        <van-button 
+                            color="#C5E0FF" 
+                            style="width: 40px;height: 20px;color: #5286E3;" 
+                            size="mini"
+                            v-if="item.show_type==1">
+                          商 城</van-button>
+                        <van-button 
+                            color="#FF4674" 
+                            style="width: 40px;height: 20px;color: #FFF1F7;" 
+                            size="mini"
+                            v-if="item.show_type==2">
+                          到 店</van-button>
+                        &nbsp;&nbsp;&nbsp;{{ item.name }}
+                      </span>
+                      <div v-if="item.show_type==0" style="margin-top: 10px;">
+                        <svg-icon iconName="icon-hongxingxing"/>&nbsp;
+                        <span style="font-size: 15px;color: #FF1E45;">{{ item.grade }}</span>
+                        <span style="font-size: 15px;color: gray;">&nbsp;&nbsp;销量 {{ item.sale }}</span>
+                      </div>
+                      <div v-if="item.show_type==1" style="margin-top: 10px;">
+                        <span style="font-size: 19px;color: #FF1E45;">&nbsp;&nbsp;&nbsp;￥{{ item.price }}</span>
+                      </div>
+                      <div v-if="item.show_type==2" style="margin-top: 10px;">
+                        <span style="font-size: 15px;color: gray;">&nbsp;&nbsp;&nbsp;&nbsp;销量 {{ item.sale }}</span><br>
+                        <span style="font-size: 19px;color: #FF1E45;">&nbsp;&nbsp;&nbsp;￥{{ item.price }}</span>
+                      </div>
+                    </div>
+                  </template>
+                </van-list>
+          </div>
+        </div>
       </van-tab>
-      <van-tab title="商城">商城</van-tab>
-      <van-tab title="外卖">外卖</van-tab>
-      <van-tab title="到店优惠">到店优惠</van-tab>
+      <!-- 商城显示 -->
+      <van-tab title="商城">
+        <div style="display: flex;justify-content: space-between;">
+          <!-- 左 -->
+            <div class="list_left" style="width: 48%;">
+                <van-list
+                  v-model:loading="loading"
+                  :finished="finished"
+                  @load="onLoad"
+                >
+                  <template v-for="item,i in list">
+                    <div class="list_div" v-if="i%2==1&&item.show_type==1">
+                      <van-image radius="10px" width="100%" height="70%" :src="getImageUrl(item.img)"/>
+                      <span style="display: flex;">
+                        <van-button 
+                            color="#C5E0FF" 
+                            style="width: 40px;height: 20px;color: #5286E3;" 
+                            size="mini"
+                            v-if="item.show_type==1">
+                          商 城</van-button>
+                        &nbsp;&nbsp;&nbsp;{{ item.name }}
+                      </span>
+                      <div v-if="item.show_type==1" style="margin-top: 10px;">
+                        <span style="font-size: 19px;color: #FF1E45;">&nbsp;&nbsp;&nbsp;￥{{ item.price }}</span>
+                      </div>
+                    </div>
+                  </template>
+                </van-list>
+            </div>
+            <!-- 右 -->
+          <div class="list_right" style="width: 48%;height: 500px;">
+            <van-list
+                  v-model:loading="loading"
+                  :finished="finished"
+                  @load="onLoad"
+                >
+                  <template v-for="item,i in list">
+                    <div class="list_div" v-if="i%2==0&&item.show_type==1">
+                      <van-image radius="10px" width="100%" height="70%" :src="getImageUrl(item.img)"/>
+                      <span style="display: flex;">
+                        <van-button 
+                            color="#C5E0FF" 
+                            style="width: 40px;height: 20px;color: #5286E3;" 
+                            size="mini"
+                            v-if="item.show_type==1">
+                          商 城</van-button>
+                        &nbsp;&nbsp;&nbsp;{{ item.name }}
+                      </span>
+                      <div v-if="item.show_type==1" style="margin-top: 10px;">
+                        <span style="font-size: 19px;color: #FF1E45;">&nbsp;&nbsp;&nbsp;￥{{ item.price }}</span>
+                      </div>
+                    </div>
+                  </template>
+                </van-list>
+          </div>
+        </div>
+      </van-tab>
+      <!-- 外卖显示 -->
+      <van-tab title="外卖">
+        <div style="display: flex;justify-content: space-between;">
+          <!-- 左 -->
+            <div class="list_left" style="width: 48%;">
+                <van-list
+                  v-model:loading="loading"
+                  :finished="finished"
+                  @load="onLoad"
+                >
+                  <template v-for="item,i in list">
+                    <div class="list_div" v-if="i%2==1&&item.show_type==0">
+                      <van-image radius="10px" width="100%" height="70%" :src="getImageUrl(item.img)"/>
+                      <span style="display: flex;">
+                        <van-button 
+                            color="#FDF1C4" 
+                            style="width: 40px;height: 20px;color: #F0863E;" 
+                            size="mini"
+                            v-if="item.show_type==0">
+                          外 卖</van-button>
+                        &nbsp;&nbsp;&nbsp;{{ item.name }}
+                      </span>
+                      <div v-if="item.show_type==0" style="margin-top: 10px;">
+                        <svg-icon iconName="icon-hongxingxing"/>&nbsp;
+                        <span style="font-size: 15px;color: #FF1E45;">{{ item.grade }}</span>
+                        <span style="font-size: 15px;color: gray;">&nbsp;&nbsp;销量 {{ item.sale }}</span>
+                      </div>
+                    </div>
+                  </template>
+                </van-list>
+            </div>
+            <!-- 右 -->
+          <div class="list_right" style="width: 48%;height: 500px;">
+            <van-list
+                  v-model:loading="loading"
+                  :finished="finished"
+                  @load="onLoad"
+                >
+                  <template v-for="item,i in list">
+                    <div class="list_div" v-if="i%2==0&&item.show_type==0">
+                      <van-image radius="10px" width="100%" height="70%" :src="getImageUrl(item.img)"/>
+                      <span style="display: flex;">
+                        <van-button 
+                            color="#FDF1C4" 
+                            style="width: 40px;height: 20px;color: #F0863E;" 
+                            size="mini"
+                            v-if="item.show_type==0">
+                          外 卖</van-button>
+                        &nbsp;&nbsp;&nbsp;{{ item.name }}
+                      </span>
+                      <div v-if="item.show_type==0" style="margin-top: 10px;">
+                        <svg-icon iconName="icon-hongxingxing"/>&nbsp;
+                        <span style="font-size: 15px;color: #FF1E45;">{{ item.grade }}</span>
+                        <span style="font-size: 15px;color: gray;">&nbsp;&nbsp;销量 {{ item.sale }}</span>
+                      </div>
+                    </div>
+                  </template>
+                </van-list>
+          </div>
+        </div>
+      </van-tab>
+      <van-tab title="到店优惠">
+        <div style="display: flex;justify-content: space-between;">
+          <!-- 左 -->
+            <div class="list_left" style="width: 48%;">
+                <van-list
+                  v-model:loading="loading"
+                  :finished="finished"
+                  @load="onLoad"
+                >
+                  <template v-for="item,i in list">
+                    <div class="list_div" v-if="i%2==1&&item.show_type==2">
+                      <van-image radius="10px" width="100%" height="70%" :src="getImageUrl(item.img)"/>
+                      <span style="display: flex;">
+                        <van-button 
+                            color="#FF4674" 
+                            style="width: 40px;height: 20px;color: #FFF1F7;" 
+                            size="mini"
+                            v-if="item.show_type==2">
+                          到 店</van-button>
+                        &nbsp;&nbsp;&nbsp;{{ item.name }}
+                      </span>
+                      <div v-if="item.show_type==2" style="margin-top: 10px;">
+                        <span style="font-size: 15px;color: gray;">&nbsp;&nbsp;&nbsp;&nbsp;销量 {{ item.sale }}</span><br>
+                        <span style="font-size: 19px;color: #FF1E45;">&nbsp;&nbsp;&nbsp;￥{{ item.price }}</span>
+                      </div>
+                    </div>
+                  </template>
+                </van-list>
+            </div>
+            <!-- 右 -->
+          <div class="list_right" style="width: 48%;height: 500px;">
+            <van-list
+                  v-model:loading="loading"
+                  :finished="finished"
+                  @load="onLoad"
+                >
+                  <template v-for="item,i in list">
+                    <div class="list_div" v-if="i%2==0&&item.show_type==2">
+                      <van-image radius="10px" width="100%" height="70%" :src="getImageUrl(item.img)"/>
+                      <span style="display: flex;">
+                        <van-button 
+                            color="#FF4674" 
+                            style="width: 40px;height: 20px;color: #FFF1F7;" 
+                            size="mini"
+                            v-if="item.show_type==2">
+                          到 店</van-button>
+                        &nbsp;&nbsp;&nbsp;{{ item.name }}
+                      </span>
+                      <div v-if="item.show_type==2" style="margin-top: 10px;">
+                        <span style="font-size: 15px;color: gray;">&nbsp;&nbsp;&nbsp;&nbsp;销量 {{ item.sale }}</span><br>
+                        <span style="font-size: 19px;color: #FF1E45;">&nbsp;&nbsp;&nbsp;￥{{ item.price }}</span>
+                      </div>
+                    </div>
+                  </template>
+                </van-list>
+          </div>
+        </div>
+      </van-tab>
     </van-tabs>
      </div>
-    
-    <!-- 商城内容 -->
+
     </van-pull-refresh>
     </template>
     
@@ -105,40 +372,69 @@
     //外卖：图片 品名 评分 销量 0
     //商城：图片 品名 描述 价格 1 
     //到店：图片 品名 销量 价格 2
-    const list = ref({
-      type:"0",
-      img:"../../assets/take-out/test.png",
-      name:"A04猪脚拼饭烧鸭",
-      sale:"0",
-      grade:"3.7",
-      price:null,
-    },{
-      type:"1",
-      img:"../../assets/shopping_mall/test.png",
-      name:"自然派蜜汁味/炭烧味猪肉铺75g",
-      sale:null,
-      grade:"0",
-      price:200.00
-    },{
-      type:"2",
-      img:"../../assets/reach_the_store/test.png",
-      name:"酒店套房",
-      sale:"4",
-      grade:null,
-      price:2500
-    })
-    //刷新时间
-    const time=ref( new Date)
+    const list = ref([])
     //刷新触发函数
-    const count = ref(0);
-        const loading = ref(false);
-        const onRefresh = () => {
-          setTimeout(() => {
-            showToast('刷新成功');
-            loading.value = false;
-          }, 1000);
-          advertisement
-        };
+    const loading = ref(false);//是否加载更多数据
+    const finished = ref(false);//是否已经加载完毕，加载完成后不再触发load事件
+    const refreshing = ref(false);//是否处在刷新状态
+    //用于解析图片本地地址
+    const getImageUrl=(imgPath)=> {
+      return require('../../assets'+imgPath); 
+    }
+    //触底新增数据函数
+    const onLoad = () => {
+      console.log(123);
+      
+      //异步更新数据
+      for(let i=0;i<10;i++){
+        list.value.push({
+            show_type:0,
+            img:"/take-out/test.png",
+            name:"A04猪脚拼饭烧鸭",
+            sale:"0",
+            grade:"3.7",
+            price:null,
+          })
+      list.value.push({
+        show_type:1,
+          img:"/shopping_mall/test.png",
+          name:"自然派蜜汁味/炭烧味猪肉铺75g",
+          sale:null,
+          grade:"0",
+          price:200.00
+      })
+      list.value.push({
+        show_type:2,
+          img:"/reach_the_store/test.png",
+          name:"酒店套房",
+          sale:"4",
+          grade:null,
+          price:2500
+        })
+      }
+      // 对所有的标题进行长度限制
+      list.value.forEach(item => {
+        if (item.name.length > 10) {
+          item.name = item.name.substring(0, 9) + '...';
+        }
+      });
+      loading.value=false//等于true的时候触底就不会调用onLoad函数了
+      //异步请求回来后
+      refreshing.value=false
+      //数据库中数据读完了
+      //finished.value=true
+    };
+    //刷新函数
+    const onRefresh = () => {
+      finished.value = false;
+
+      // 重新加载数据
+      list.value=[]
+      // 将 loading 设置为 true，表示处于加载状态
+      loading.value = true;
+      
+      onLoad();
+    };
     
     //广告函数
     const advertisement =(()=>{});
@@ -199,7 +495,7 @@
     .serch_div{
       display: flex;
       justify-content: flex-end;
-      padding-bottom: 3px
+      padding-bottom: 10px
     }
     .serch{
       width: 92%;
@@ -250,7 +546,15 @@
       font-size: 14px;
       text-align: center;
     }
-    
+    /* 显示的内容 */
+    .list_div{
+      width: 100%;
+      height: 260px;
+      border-radius: 10px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      box-shadow: 0px 1px 1px gray;
+    }
     
     </style>
     

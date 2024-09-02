@@ -1,7 +1,7 @@
 <template>
 <RouterView/>
 <!-- 底部导航：vant官网Tabbar标签栏 -->
-<van-tabbar v-model="active" route active-color="#ee0a24">
+<van-tabbar v-if="$route.meta.showTabBar" v-model="active" route active-color="#ee0a24">
   <van-tabbar-item icon="wap-home-o" to="/Demo1">首页</van-tabbar-item>
   <van-tabbar-item icon="completed-o" to="/Demo2">外卖</van-tabbar-item>
   <van-tabbar-item class="van-table-item">
@@ -15,8 +15,11 @@
 </template>
 
 <script setup>
-import {ref} from "vue"
-const active = ref(0)
+import { ref, computed } from 'vue';  
+import { useRoute } from 'vue-router';  
+  
+const route = useRoute();  
+const active = ref(0); 
 </script>
 
 <style scoped>
