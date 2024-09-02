@@ -33,37 +33,37 @@
         <van-grid :column-num="5" class="icons" :border="false">
             <van-grid-item icon="photo-o" text="文字" class="icon-item">
                 <img src="../../assets/app_img/demo1_activity1.png" />
-                <p>家政服务</p>
+                <p>美食外卖</p>
             </van-grid-item>
             <van-grid-item icon="photo-o" text="文字" class="icon-item">
                 <img src="../../assets/app_img/demo1_activity2.png" />
-                <p>家政服务</p>
+                <p>正品商城</p>
             </van-grid-item>
             <van-grid-item icon="photo-o" text="文字" class="icon-item">
                 <img src="../../assets/app_img/demo1_activity3.png" />
-                <p>家政服务</p>
+                <p>充值缴费</p>
             </van-grid-item>
             <van-grid-item icon="photo-o" text="文字" class="icon-item">
                 <img src="../../assets/app_img/demo1_activity4.png" />
-                <p>家政服务</p>
+                <p>国际货运</p>
             </van-grid-item>
             <van-grid-item/>
             <van-grid-item icon="photo-o" text="文字" class="icon-item">
                 <img src="../../assets/app_img/demo1_activity5.png" />
-                <p>家政服务</p>
+                <p>房产租售</p>
             </van-grid-item>
             <van-grid-item icon="photo-o" text="文字" class="icon-item">
                 <img src="../../assets/app_img/demo1_activity6.png" />
-                <p>家政服务</p>
+                <p>同城跑腿</p>
             </van-grid-item>
             <van-grid-item icon="photo-o" text="文字" class="icon-item">
                 <img src="../../assets/app_img/demo1_activity7.png" />
-                <p>家政服务</p>
+                <p>多国签证</p>
             </van-grid-item>
             <van-grid-item/><van-grid-item/>
             <van-grid-item icon="photo-o" text="文字" class="icon-item">
                 <img src="../../assets/app_img/demo1_activity8.png" />
-                <p>家政服务</p>
+                <p>旅游度假</p>
             </van-grid-item>
             <van-grid-item icon="photo-o" text="文字" class="icon-item">
                 <img src="../../assets/app_img/demo1_activity9.png" />
@@ -367,6 +367,7 @@
     <script setup>
     import {ref} from "vue"
     import { useRouter } from "vue-router";//导入路由 可以路由跳转
+    import { showToast } from 'vant';
     const router=useRouter();//定义路由对象
     const address = ref('马尼拉')
     //外卖：图片 品名 评分 销量 0

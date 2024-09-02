@@ -90,9 +90,8 @@
   <script setup>
   import { ref } from 'vue';
   import { useRouter } from 'vue-router';
-  import api from '../router/index'
   
-  const onClickLeft = () => history.back();
+  const onClickLeft = () => router.push('/Demo4');
   // 路由实例
   const router = useRouter();
   
@@ -139,9 +138,6 @@
   
   // 跳转至相关页面
   const navigateTo = (path) => {
-    // api.post('/kuser/getCode').then(res=>{
-    //   console.log(res);
-    // })
     router.push(path);
   };
   </script>
