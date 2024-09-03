@@ -8,7 +8,7 @@
             round
             width="60px"
             height="60px"
-            :src="getImageUrl(user.img)"
+            :src="getImageUrl(user.head)"
             v-if="user!=null"/>
         <van-image
             round
@@ -17,7 +17,7 @@
             src="https://img1.baidu.com/it/u=4017730767,3985396437&fm=253&fmt=auto&app=138&f=JPG?w=200&h=200"
             v-if="user==null"/>
     </van-col>
-      <van-col span="13" class="youhuming" v-if="user!=null">{{ user.user_name }}</van-col>
+      <van-col span="13" class="youhuming" v-if="user!=null">{{ user.userPetname!=null?user.userPetname:user.userName }}</van-col>
       <van-col span="13" class="youhuming" v-if="user==null" @click="router.push('/login')">登录 / 注册</van-col>
       <van-col span="6"  class="shezhi">
         <van-icon name="service-o" size="18" @click="router.push('/')">
@@ -42,9 +42,9 @@
             <van-col span="8"><span>—</span></van-col>
         </van-row>
         <van-row class="nav_div_2">
-            <van-col span="8" @click="router.push('/')"><span>余额<van-icon name="arrow" color="rgb(241, 28, 46)"/></span></van-col>
-            <van-col span="8" @click="router.push('/')"><span>优惠卷<van-icon name="arrow" color="rgb(241, 28, 46)"/></span></van-col>
-            <van-col span="8" @click="router.push('/')"><span>会员积分<van-icon name="arrow" color="rgb(241, 28, 46)"/></span></van-col>
+            <van-col span="8" @click="router.push('/wallet')"><span>余额<van-icon name="arrow" color="rgb(241, 28, 46)"/></span></van-col>
+            <van-col span="8" @click="router.push('/coupons')"><span>优惠卷<van-icon name="arrow" color="rgb(241, 28, 46)"/></span></van-col>
+            <van-col span="8" @click="router.push('/integral')"><span>会员积分<van-icon name="arrow" color="rgb(241, 28, 46)"/></span></van-col>
         </van-row>
      </div>
 </div>
@@ -132,15 +132,22 @@
 </template>
     
     <script setup>
-    import {ref} from "vue"
+    import {onMounted, ref} from "vue"
     // const user=ref({user_name:"用户",img:"/user/头像.jpg"})//测试数据，前后端关联要修改
     const user=ref()//测试数据，前后端关联要修改
     import { useRouter } from "vue-router";//导入路由 可以路由跳转
     const router=useRouter();//定义路由对象
     const a = ref(0);
+
+    //进入到这个页面的时候就读取localStroe将用户数据存储进user
+    onMounted(()=>{
+        user.value = JSON.parse(localStorage.getItem('admin'));
+    })
     // 退出
     let exit=()=>{
-        router.push('/')
+        router.push('/login')
+        localStorage.removeItem('admin')
+        localStorage.removeItem('token')
     }
     //用于解析图片本地地址
     const getImageUrl=(imgPath)=> {

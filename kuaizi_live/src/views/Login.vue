@@ -74,8 +74,10 @@
       </div>
   
       <!-- 获取验证码按钮 -->
-      <van-button type="primary" v-if="value!=''&&checked1==true&&value.length>=10" round size="large" class="verification-button" @click="navigateTo('/code')">获取短信验证码</van-button>
-      <van-button type="primary" v-if="value==''||checked1==false||value.length<10" disabled  round size="large" class="verification-button" @click="navigateTo('/code')">获取短信验证码</van-button>
+      <van-button type="primary" v-if="(value!=''&&checked1==true&&value.length>=10)&&status==1" round size="large" class="verification-button" @click="navigateTo('/code')">获取短信验证码</van-button>
+      <van-button type="primary" v-if="(value==''||checked1==false||value.length<10)&&status==1" disabled  round size="large" class="verification-button">获取短信验证码</van-button>
+      <van-button type="primary" v-if="(value!=''&&checked1==true&&value.length>=10&&password!='')&&status==0" round size="large" class="verification-button" @click="pwLogin">登录</van-button>
+      <van-button type="primary" v-if="(value==''||checked1==false||value.length<10||password=='')&&status==0" disabled  round size="large" class="verification-button">登录</van-button>
     </div>
   
     <!-- 其他登录方式 -->
@@ -150,8 +152,10 @@
       // 验证是否为中国或菲律宾的号码
       if (!chinaRegex.test(value.value)&&code.value=='+86') {
         showToast('请输入正确手机号');
+        return
       } else if (!philippinesRegex.test(value.value)&&code.value=='+63') {
         showToast('请输入正确手机号');
+        return
       } 
       //路由传值，将区号 电话号码
       router.push(path+'/'+code.value+'/'+value.value)
@@ -159,6 +163,24 @@
     }
     router.push(path);
   };
+  // 密码登录方法
+  const pwLogin = ()=>{
+      //判断电话号码的正确性
+      // 正则表达式用于验证中国电话号码格式
+      const chinaRegex = /^(\+86)?1[3-9]\d{9}$/;
+      // 正则表达式用于验证菲律宾电话号码格式
+      const philippinesRegex = /^(\+63)?9\d{9}$/;
+      // 验证是否为中国或菲律宾的号码
+      if (!chinaRegex.test(value.value)&&code.value=='+86') {
+        showToast('请输入正确手机号');
+        return
+      } else if (!philippinesRegex.test(value.value)&&code.value=='+63') {
+        showToast('请输入正确手机号');
+        return
+      } 
+      //发送异步请求登录 数据：电话号码 密码，返回是登录成功 还是失败 失败原因 密码错误/用户不存在
+      api.postReq('/')
+  }
   </script>
   
   <style scoped>

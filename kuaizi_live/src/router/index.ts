@@ -89,6 +89,30 @@ const routes: Array<RouteRecordRaw> = [
     path:'/forgetpassword',
     component:()=>import('../views/ForgetPassword.vue')
   },
+  {
+    path:'/wallet',
+    component:()=>import('../views/Demo4/wallet/Wallet.vue')
+  },
+  {
+    path:'/account',
+    component:()=>import('../views/Demo4/wallet/Account.vue')
+  },
+  {
+    path:'/account2',
+    component:()=>import('../views/Demo4/wallet/Account2.vue')
+  },
+  {
+    path:'/coupons',
+    component:()=>import('../views/Demo4/wallet/Coupons.vue')
+  },
+  {
+    path:'/integral',
+    component:()=>import('../views/Demo4/wallet/Integral.vue')
+  },
+  {
+    path:'/integral2',
+    component:()=>import('../views/Demo4/wallet/Integral2.vue')
+  },
 ]
 
 const router = createRouter({

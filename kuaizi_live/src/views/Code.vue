@@ -48,6 +48,9 @@
   //一进入到这个页面就向后端发送请求获取code
   onMounted(()=>{
     api.postReq('/kuser/getCode').then(res=>{
+      if (res.data.code==0) {
+        showToast('网络错误');
+      }
       v_code.value = res.data.data
     })
   })
@@ -87,8 +90,16 @@
       if (code.value.join('')==v_code.value) {
         //验证码验证成功，发送登录异步请求
         api.postReq('/kuser/codeLogin',{areacode:areaCode,userPhone:user_phone}).then(res=>{
-          console.log(res.data);
-          
+          let result = res.data
+          if(result.code==1){
+            //登录成功，存储用户信息
+            localStorage.setItem("admin",JSON.stringify(result.data));
+            localStorage.setItem("token",result.data.token);
+            //跳转到主页
+            router.push('/Demo4')
+          }else{
+            showToast('网络错误');
+          } 
         })
       }else{
         //验证码错误，清空验证码，弹窗提示错误
