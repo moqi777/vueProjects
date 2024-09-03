@@ -179,7 +179,9 @@
         return
       } 
       //发送异步请求登录 数据：电话号码 密码，返回是登录成功 还是失败 失败原因 密码错误/用户不存在
-      api.postReq('/')
+      api.postReq('/kuser/pwLogin',{userPhone:value,password:password}).then(res=>{
+        showToast(res.data.msg);
+      })
   }
   </script>
   

@@ -113,6 +113,15 @@ const routes: Array<RouteRecordRaw> = [
     path:'/integral2',
     component:()=>import('../views/Demo4/wallet/Integral2.vue')
   },
+  //家政服务
+  {
+    path:'/economics',
+    component:()=>import('../views/Demo1/Economics.vue')
+  },
+  {
+    path:'/findeconomics',
+    component:()=>import('../views/Demo1/FindEconomics.vue')
+  },
 ]
 
 const router = createRouter({

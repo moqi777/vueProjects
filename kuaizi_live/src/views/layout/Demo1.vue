@@ -65,7 +65,7 @@
                 <img src="../../assets/app_img/demo1_activity8.png" />
                 <p>旅游度假</p>
             </van-grid-item>
-            <van-grid-item icon="photo-o" text="文字" class="icon-item">
+            <van-grid-item icon="photo-o" text="文字" class="icon-item" @click="router.push('/economics')">
                 <img src="../../assets/app_img/demo1_activity9.png" />
                 <p>家政服务</p>
             </van-grid-item>
