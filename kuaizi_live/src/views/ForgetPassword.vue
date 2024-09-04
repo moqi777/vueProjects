@@ -16,7 +16,7 @@
         <div class="input-wrapper">
           <a @click="showPopup" href="javascript:void(0);" class="code-button">{{ code }}</a>
           <van-cell-group inset class="input-group">
-            <van-field v-model="phoneNumber" placeholder="请输入手机号" class="input-field" />
+            <van-field v-model="phoneNumber" placeholder="请输入手机号" class="input-field" :readonly/>
           </van-cell-group>
         </div>
       </van-col>
@@ -28,7 +28,10 @@
           <van-cell-group inset class="input-group">
             <van-field v-model="verificationCode" placeholder="验证码" class="input-field" />
           </van-cell-group>
-          <van-button type="primary" round size="small" class="get-code-button" @click="getCode">
+          <van-button v-if="phoneNumber!=''&&phoneNumber.length>=10" type="primary" round size="small" class="get-code-button" @click="getCode">
+            获取验证码
+          </van-button>
+          <van-button v-if="phoneNumber==''||phoneNumber.length<10" disabled type="primary" round size="small" class="get-code-button">
             获取验证码
           </van-button>
         </div>
@@ -71,18 +74,22 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import api from '../api/index'
+import { showToast } from 'vant';
 
 const router = useRouter();
 
-const phoneNumber = ref('');
-const verificationCode = ref('');
-const password = ref('');
+const phoneNumber = ref('');//手机号
+const verificationCode = ref('');//验证码
+const v_code = ref()//后端传来的验证码
+const password = ref('');//密码
 const show = ref(false);
-const code = ref('+86'); // 默认显示+86
+const code = ref('+86'); // 默认显示+86 //区号
+const readonly = ref(false)//是否锁住手机号码输入框
 
-// 返回上一步
+// 返回登录页面
 const onClickLeft = () => {
-  history.back();
+  router.push('/login')
 };
 
 // 显示选择国际区号弹出层
@@ -100,12 +107,71 @@ const selectCode = (selectedCode) => {
 
 // 获取验证码的处理函数
 const getCode = () => {
-  alert('验证码已发送');
+  //判断电话号码的正确性
+  // 正则表达式用于验证中国电话号码格式
+  const chinaRegex = /^(\+86)?1[3-9]\d{9}$/;
+  // 正则表达式用于验证菲律宾电话号码格式
+  const philippinesRegex = /^(\+63)?9\d{9}$/;
+  // 验证是否为中国或菲律宾的号码
+  if (!chinaRegex.test(phoneNumber.value)&&code.value=='+86') {
+    showToast('请输入正确手机号');
+    return
+  } else if (!philippinesRegex.test(phoneNumber.value)&&code.value=='+63') {
+    showToast('请输入正确手机号');
+    return
+  } 
+  api.postReq('/kuser/getCode').then(res=>{
+      if (res.data.code==0) {
+        showToast('网络错误');
+        return
+      }
+      showToast('验证码已发送');
+      v_code.value = res.data.data
+      //把手机号码输入框锁定 防止用户修改
+      readonly.value = true
+  })
 };
 
 // 跳转至相关页面
 const navigateTo = (path) => {
-  router.push(path);
+  //判断电话号码的正确性
+  // 正则表达式用于验证中国电话号码格式
+  const chinaRegex = /^(\+86)?1[3-9]\d{9}$/;
+  // 正则表达式用于验证菲律宾电话号码格式
+  const philippinesRegex = /^(\+63)?9\d{9}$/;
+  // 验证是否为中国或菲律宾的号码
+  if (!chinaRegex.test(phoneNumber.value)&&code.value=='+86') {
+    showToast('请输入正确手机号');
+    return
+  } else if (!philippinesRegex.test(phoneNumber.value)&&code.value=='+63') {
+    showToast('请输入正确手机号');
+    return
+  } 
+  if(verificationCode.value==''){
+    showToast('请输入验证码');
+    return;
+  }
+  if (v_code.value!=verificationCode.value) {
+    showToast('验证码错误');
+    return
+  }
+  if(password.value==''){
+    showToast('请输入新密码');
+    return;
+  }
+  if(password.value.length<6){
+    showToast('密码至少六位数');
+    return;
+  }
+  //发送异步请求修改密码
+  api.postReq('/kuser/updatePw',{userPhone:phoneNumber.value,password:password.value,areacode:code.value}).then(res=>{
+    showToast(res.data.msg);
+    if(res.data.code==1){
+      //登录成功跳转登录页面
+      router.push('/login')
+    }
+  })
+  //router.push(path);
 };
 </script>
 

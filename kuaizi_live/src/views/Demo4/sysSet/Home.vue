@@ -7,9 +7,9 @@
 />
 <div class="settings-page">
     <van-cell-group>
-      <van-cell title="个人资料" is-link to="/set1"/>     
-      <van-cell title="账号安全" is-link to="/set2"/>
-      <van-cell title="修改登录密码" is-link to="/set3"/>
+      <van-cell title="个人资料" is-link to="/set1" v-if="user!=null"/>     
+      <van-cell title="账号安全" is-link to="/set2" v-if="user!=null"/>
+      <van-cell title="修改登录密码" is-link to="/set3" v-if="user!=null"/>
       <van-cell title="语言设置" is-link to="/set4"/>
     </van-cell-group>
 
@@ -22,10 +22,14 @@
 
 <script setup>
 
-import {ref} from "vue"
+import {onMounted, ref} from "vue"
 
 const onClickLeft = () => history.back();
 const HC=ref("27MB")
+const user = ref()
+onMounted(()=>{
+  user.value = JSON.parse(localStorage.getItem('admin'))
+})
 const open = () => {
   showConfirmDialog({
     message: '确定清除缓存？',

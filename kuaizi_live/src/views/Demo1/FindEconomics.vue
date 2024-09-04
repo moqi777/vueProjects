@@ -15,8 +15,8 @@
         <van-cell title="性别" is-link @click="show" required>
           <span class="placeholder">{{ gender ? gender : '请选择性别' }}</span>
         </van-cell>
-        <van-cell title="地区" is-link @click="show2" required>
-          <span class="placeholder">{{ region ? region : '请选择地区' }}</span>
+        <van-cell title="地区" is-link @click="show2" required v-model="region">
+          <span class="placeholder" >{{ region ? region : '请选择地区' }}</span>
         </van-cell>
         <van-field v-model="address" label="详细地址" placeholder="请输入详细地址" required />
         <van-field v-model="phone" label="联系电话" placeholder="请输入手机号" required />
@@ -92,8 +92,8 @@ import { useRouter } from 'vue-router';
 import { showToast,Area } from 'vant';
 import  api  from '../../api/index';
 
-const test1 =(nickname)=>{
-api.postReq('/',nickname).then(res=>{
+const test1 =(formData)=>{
+api.postReq('/keconomics/economics',formData).then(res=>{
   let result = res.data;
         if(result.code ==1){
           //成功提示
@@ -101,8 +101,10 @@ api.postReq('/',nickname).then(res=>{
           router.push("/economics")
 }})}
 const router = useRouter();
+
 const showPopup = ref(false);
 const showPopup2 = ref(false);
+
 const nickname = ref('');
 const gender = ref('');
 const region = ref('');
@@ -113,6 +115,9 @@ const telegram = ref('');
 const area = ref('');
 const rooms = ref('');
 const floor = ref('');
+const message=ref('');
+const username = ref(JSON.parse(localStorage.getItem("admin")).userName || '');
+
 
 const onClickLeft = () => router.back();
 
@@ -160,6 +165,8 @@ const onSubmit = () => {
     area: area.value,
     rooms: rooms.value,
     floor: floor.value,
+    message:message.value,
+    userName:username.value
   };
 
   console.log('提交表单数据:', formData);
@@ -171,7 +178,7 @@ const onSubmit = () => {
 };
 </script>
 
-<style>
+<style scoped>
 .section {
   margin: 10px 0;
   background-color: #f7f7f7;

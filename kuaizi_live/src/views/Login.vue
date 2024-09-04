@@ -179,8 +179,15 @@
         return
       } 
       //发送异步请求登录 数据：电话号码 密码，返回是登录成功 还是失败 失败原因 密码错误/用户不存在
-      api.postReq('/kuser/pwLogin',{userPhone:value,password:password}).then(res=>{
+      api.postReq('/kuser/pwLogin',{userPhone:value.value,password:password.value}).then(res=>{
         showToast(res.data.msg);
+        if(res.data.code==1){
+            //登录成功，存储用户信息
+            localStorage.setItem("admin",JSON.stringify(res.data.data));
+            localStorage.setItem("token",res.data.data.token);
+            //跳转主页
+            router.push('/Demo4')
+        }
       })
   }
   </script>
