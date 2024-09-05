@@ -122,6 +122,34 @@ const routes: Array<RouteRecordRaw> = [
     path:'/findeconomics',
     component:()=>import('../views/Demo1/FindEconomics.vue')
   },
+  //房产
+  {
+    path:'/house',
+    component:()=>import('../views/Demo1/house/home.vue'),
+    redirect:'/house/house1/{}',
+    children:[
+      {
+        path:'house1/:options',
+        name:'house1',
+        component:()=>import('../views/Demo1/house/house1.vue')
+      },
+      {
+        path:'house2/:options',
+        name:'house2',
+        component:()=>import('../views/Demo1/house/house2.vue')
+      },
+      {
+        path:'house3/:options',
+        name:'house3',
+        component:()=>import('../views/Demo1/house/house3.vue')
+      },
+      {
+        path:'house4/:options',
+        name:'house4',
+        component:()=>import('../views/Demo1/house/house4.vue')
+      },
+    ]
+  }
 ]
 
 const router = createRouter({

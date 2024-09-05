@@ -48,7 +48,7 @@
                 <p>国际货运</p>
             </van-grid-item>
             <van-grid-item/>
-            <van-grid-item icon="photo-o" text="文字" class="icon-item">
+            <van-grid-item icon="photo-o" text="文字" class="icon-item" @click="router.push('/house')"> 
                 <img src="../../assets/app_img/demo1_activity5.png" />
                 <p>房产租售</p>
             </van-grid-item>
