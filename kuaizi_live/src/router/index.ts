@@ -149,7 +149,27 @@ const routes: Array<RouteRecordRaw> = [
         component:()=>import('../views/Demo1/house/house4.vue')
       },
     ]
-  }
+  },
+  {
+    path:'/issue_home',
+    component:()=>import('../views/Demo1/house/issue_home.vue')
+  },
+  {
+    path:'/issue1',
+    component:()=>import('../views/Demo1/house/issue1.vue')
+  },
+  {
+    path:'/issue2',
+    component:()=>import('../views/Demo1/house/issue2.vue')
+  },
+  {
+    path:'/issue3',
+    component:()=>import('../views/Demo1/house/issue3.vue')
+  },
+  {
+    path:'/issue4',
+    component:()=>import('../views/Demo1/house/issue4.vue')
+  },
 ]
 
 const router = createRouter({

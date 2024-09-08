@@ -91,7 +91,7 @@
 <!-- 底部 我的发布 发布 按钮 -->
 <div class="botton_div">
     <div class="my_issue" @click=""><span>我的发布</span></div>
-    <div class="issue" @click=""><span>发 布</span></div>
+    <div class="issue" @click="router.push('/issue_home')"><span>发 布</span></div>
 </div>
 </template>
 
