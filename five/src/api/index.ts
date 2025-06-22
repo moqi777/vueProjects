@@ -16,7 +16,7 @@ const api = {
     },
     //比如：get请求封装在一起
     getReq(url:String,data?:Object){
-        return axios.post(base.baseUrl+url,data)
+        return axios.get(base.baseUrl+url,data)
     }
 }
 

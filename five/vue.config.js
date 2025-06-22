@@ -17,7 +17,7 @@ module.exports = defineConfig({
       // /任意写/show 也可以跨域
       '/api':{//配置一个名为api的代理
         //配置后端地址 proxy会转发到这里去
-        target:'http://192.168.11.27:9999',
+        target:'http://127.0.0.7:40000',
         //路径重写 目的是去除请求地址中的/api
         pathRewrite:{"^/api":''},
         //代理webSockets 可以不配置
